@@ -1,0 +1,65 @@
+.entity {
+    position: absolute;
+    min-width: 200px;
+    min-height: 110px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    z-index: 1;
+    padding: 1em;
+
+    cursor: grab;
+    user-select: none;
+}
+
+.entity .name {
+    font-weight: 600;
+    margin-bottom: 0.4em;
+    font-family: "Lexend", sans-serif;
+}
+.entity input.name{
+    background: inherit;
+    color: inherit;
+    border: none;
+    outline: none;
+}
+
+.entity .attribute {
+    cursor: text;
+    font-family: "Lexend", sans-serif;
+}
+.entity input.attribute{
+    background: inherit;
+    color: inherit;
+    border: none;
+    outline: none;
+}
+
+.entity .attribute.primary {
+    text-decoration: underline;
+}
+
+.entity .attribute.partial {
+    text-decoration: underline double 2px;
+}
+
+.connector {
+    position: absolute;
+    /* border: 1px solid white; */
+    width: 40px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+    user-select: none;
+    cursor: grab;
+}
+
+.connector .discText {}

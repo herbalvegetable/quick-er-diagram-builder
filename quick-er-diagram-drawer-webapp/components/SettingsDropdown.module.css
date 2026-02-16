@@ -1,0 +1,64 @@
+.settingsMenu {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 1001;
+    /* font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; */
+}
+
+.settingsButton {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.settingsButton:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.settingsDropdown {
+    position: absolute;
+    top: 36px;
+    left: 0;
+    padding: 6px 0;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(6px);
+    color: white;
+    min-width: 180px;
+}
+
+.menuItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 8px 14px;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: left;
+    white-space: nowrap;
+}
+
+.menuItem:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.menuIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
