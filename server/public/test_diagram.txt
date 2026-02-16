@@ -1,0 +1,9 @@
+entities:
+    course u.course_id, course_name;
+    student u.student_id, name, age, GPA;
+    grade_report.assoc grade;
+    
+relationships:
+    course 11 has 1m grade_report;
+    grade_report 0m has 11 student;
+    

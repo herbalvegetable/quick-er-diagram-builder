@@ -1,0 +1,10 @@
+entities:
+    campaign.super.total.disjoint u.campaign_id, start_date, end_date, campaign_type;
+    cpc_campaign.sub.campaign target_click_rate;
+    cpi_campaign.sub.campaign target_awareness_score;
+
+    person.super.partial.overlap u.person_id,name,age,person_type(customer?, employee?);
+    customer.sub.person customer_details;
+    
+relationships:
+    
