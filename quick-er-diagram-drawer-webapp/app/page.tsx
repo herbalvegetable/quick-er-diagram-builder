@@ -47,6 +47,7 @@ import RelationshipLabel from '@/components/RelationshipLabel';
 import UnaryArrow from '@/components/UnaryArrow';
 import HelpModal from '@/components/HelpModal';
 import FirstVisitTooltip from '@/components/FirstVisitTooltip';
+import { FaGithub } from 'react-icons/fa';
 
 export default function Home() {
 	const { cameraPos, setCameraPos } = useCameraPositionContext();
@@ -574,10 +575,35 @@ export default function Home() {
 						selectedPaletteId={selectedPaletteId}
 						onSelectPalette={handleSelectPalette}
 					/>
+					<a
+						href="https://github.com/herbalvegetable/quick-er-diagram-builder"
+						target="_blank"
+						rel="noopener noreferrer"
+						title="View on GitHub"
+						style={{
+							position: 'absolute',
+							top: 12,
+							left: 92,
+							width: 32,
+							height: 32,
+							borderRadius: '50%',
+							backgroundColor: 'rgba(0, 0, 0, 0.6)',
+							color: 'white',
+							display: 'flex',
+							alignItems: 'center',
+							justifyContent: 'center',
+							zIndex: 1001,
+							textDecoration: 'none',
+						}}
+						onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.8)')}
+						onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.6)')}
+					>
+						<FaGithub size={18} />
+					</a>
 					<span style={{
 						position: 'absolute',
 						top: 19,
-						left: 96,
+						left: 132,
 						zIndex: 1001,
 						fontSize: 14,
 						color: currentPalette.entityText,
