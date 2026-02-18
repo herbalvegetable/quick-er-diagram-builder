@@ -10,7 +10,7 @@ import { Position } from '@/lib/Position';
 import ContextMenu from './ContextMenu';
 
 export default function Entity(props: any) {
-    const { data, entityStyle, entityId, pos, deltaPos, index, onUpdateEntity, onDeleteEntity, isActive, onActivate, layoutPos, onPrettyFormat } = props;
+    const { data, entityStyle, entityId, pos, deltaPos, index, onUpdateEntity, onDeleteEntity, isActive, onActivate, layoutPos, onPrettyFormat, onEditStart, onEditEnd } = props;
 
     const { cameraPos } = useCameraPositionContext();
 
@@ -97,6 +97,13 @@ export default function Entity(props: any) {
             position.setScreenPos(cameraPos);
         }
     }, [isGrabbed, cameraPos, deltaPos]);
+
+    const prevEditingRef = useRef(false);
+    useEffect(() => {
+        if (isEditing && !prevEditingRef.current) onEditStart?.();
+        if (!isEditing && prevEditingRef.current) onEditEnd?.();
+        prevEditingRef.current = isEditing;
+    }, [isEditing, onEditStart, onEditEnd]);
 
     const handleEnterSave = () => {
         if (onUpdateEntity && typeof index === 'number') {

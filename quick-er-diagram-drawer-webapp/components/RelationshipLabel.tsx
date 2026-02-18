@@ -11,6 +11,8 @@ type Props = {
 	relIndex: number;
 	onUpdateRelationship: (index: number, updated: RelDataType) => void;
 	onDeleteRelationship?: (index: number) => void;
+	onEditStart?: () => void;
+	onEditEnd?: () => void;
 	backgroundColor: string;
 	textColor: string;
 	strokeColor: string;
@@ -21,11 +23,20 @@ export default function RelationshipLabel({
 	relIndex,
 	onUpdateRelationship,
 	onDeleteRelationship,
+	onEditStart,
+	onEditEnd,
 	backgroundColor,
 	textColor,
 	strokeColor,
 }: Props) {
 	const [isEditing, setIsEditing] = useState(false);
+	const prevEditingRef = useRef(false);
+
+	useEffect(() => {
+		if (isEditing && !prevEditingRef.current) onEditStart?.();
+		if (!isEditing && prevEditingRef.current) onEditEnd?.();
+		prevEditingRef.current = isEditing;
+	}, [isEditing, onEditStart, onEditEnd]);
 	const [editName, setEditName] = useState(relData.name);
 	const [editAttrs, setEditAttrs] = useState<AttrType[]>(relData.attrs || []);
 	const attrInputRefs = useRef<(HTMLInputElement | null)[]>([]);

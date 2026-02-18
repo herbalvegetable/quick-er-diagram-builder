@@ -29,7 +29,7 @@ export default function HelpModal({ onClose }: Props) {
 
 				<h2 className={styles.title}>Quick ER Diagram Drawer</h2>
 				<p className={styles.description}>
-					A fast, command-line inspired tool for creating Entity-Relationship diagrams.
+					A fast, command-line inspired tool for creating Entity-Relationship diagrams, designed for rapid model testing and validation.
 					Type commands in the prompt at the bottom to build your diagram, or use the AI generator.
 				</p>
 
@@ -79,7 +79,7 @@ export default function HelpModal({ onClose }: Props) {
 					</thead>
 					<tbody>
 						<tr><td><code>u.</code></td><td>Primary key (underlined)</td></tr>
-						<tr><td><code>du.</code></td><td>Partial key (dashed underline)</td></tr>
+						<tr><td><code>du.</code></td><td>Partial key (double underline)</td></tr>
 						<tr><td>(none)</td><td>Regular attribute</td></tr>
 					</tbody>
 				</table>

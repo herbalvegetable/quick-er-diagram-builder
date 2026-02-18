@@ -44,14 +44,14 @@ export default function CardinalityIcon(props: any) {
                         r="3"
                         stroke={stroke}
                         strokeWidth={strokeWidth}
-                        fill={fill}
+                        fill="none"
                     />
                     <path
                         d="M3 0 L7 -5 M3 0 L7 5"
                         stroke={stroke}
                         strokeWidth={strokeWidth}
                         strokeLinecap="round"
-                        fill={fill}
+                        fill="none"
                     />
                 </g>
             )

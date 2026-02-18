@@ -177,7 +177,7 @@ export default function UnaryArrow({
 					position: 'absolute',
 					left: cp1x - loopW * 0.3,
 					top: ly(cp2y + loopH * 0.3),
-					transform: 'translate(-250%, 200%)',
+					transform: 'translate(-100%, 100%)',
 					pointerEvents: 'auto',
 				}}>
 					{children}

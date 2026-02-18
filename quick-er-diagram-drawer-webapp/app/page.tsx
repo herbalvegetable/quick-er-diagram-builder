@@ -27,6 +27,13 @@ import PaletteDropdown from '@/components/PaletteDropdown';
 
 const PALETTE_STORAGE_KEY = 'er-diagram-palette-id';
 const DIAGRAM_CODE_STORAGE_KEY = 'er-diagram-code';
+const FIRST_VISIT_STORAGE_KEY = 'er-diagram-first-visit';
+
+function getIsFirstVisit(): boolean {
+	if (typeof window === 'undefined') return false;
+	const stored = localStorage.getItem(FIRST_VISIT_STORAGE_KEY);
+	return stored !== 'false';
+}
 
 function getStoredPaletteId(): string | undefined {
 	if (typeof window === 'undefined') return undefined;
@@ -39,6 +46,7 @@ import SettingsDropdown from '@/components/SettingsDropdown';
 import RelationshipLabel from '@/components/RelationshipLabel';
 import UnaryArrow from '@/components/UnaryArrow';
 import HelpModal from '@/components/HelpModal';
+import FirstVisitTooltip from '@/components/FirstVisitTooltip';
 
 export default function Home() {
 	const { cameraPos, setCameraPos } = useCameraPositionContext();
@@ -58,7 +66,35 @@ export default function Home() {
 	}, []);
 	const [activeEntityId, setActiveEntityId] = useState<string | null>(null);
 	const [showHelp, setShowHelp] = useState(false);
+	const [showFirstVisitTooltip, setShowFirstVisitTooltip] = useState(false);
+
+	useEffect(() => {
+		if (getIsFirstVisit()) setShowFirstVisitTooltip(true);
+	}, []);
+	const [editStatus, setEditStatus] = useState<'idle' | 'editing' | 'saved'>('idle');
+	const editStatusTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 	const canvasRef = useRef<HTMLDivElement>(null);
+
+	const handleEditStart = useCallback(() => {
+		if (editStatusTimeoutRef.current) {
+			clearTimeout(editStatusTimeoutRef.current);
+			editStatusTimeoutRef.current = null;
+		}
+		setEditStatus('editing');
+	}, []);
+
+	const handleEditEnd = useCallback(() => {
+		setEditStatus('saved');
+		if (editStatusTimeoutRef.current) clearTimeout(editStatusTimeoutRef.current);
+		editStatusTimeoutRef.current = setTimeout(() => {
+			setEditStatus('idle');
+			editStatusTimeoutRef.current = null;
+		}, 2500);
+	}, []);
+
+	useEffect(() => () => {
+		if (editStatusTimeoutRef.current) clearTimeout(editStatusTimeoutRef.current);
+	}, []);
 	const currentPalette = colourPalettes.find(p => p.id === selectedPaletteId) ?? colourPalettes[0];
 
 	const initEntitiesData = (data: EntityDataType[]): RelDataType[] => {
@@ -276,15 +312,15 @@ export default function Home() {
 			const { entities, relationships } = extractDiagramCode(stored);
 			const extraRels = initEntitiesData(entities ?? []);
 			setRelsData([...(relationships ?? []), ...extraRels]);
-			if(entities?.length === 0 && relationships?.length === 0){
+			if (entities?.length === 0 && relationships?.length === 0) {
 				console.log("No diagram code found in localStorage, fetch template from server.");
 			}
-			else{
+			else {
 				pendingPrettyFormatRef.current = true;
 				diagramLoadedRef.current = true;
 				return;
 			}
-			
+
 		}
 		fetch(`http://localhost:5000/test_diagram.txt`)
 			.then(res => res.text().then(data => {
@@ -520,6 +556,10 @@ export default function Home() {
 		reader.readAsText(file);
 	}, [handleLoadDiagramFile]);
 
+	useEffect(() => {
+		console.log("Edit status: ", editStatus);
+	}, [editStatus]);
+
 	return (
 		<>
 			<Xwrapper>
@@ -534,6 +574,17 @@ export default function Home() {
 						selectedPaletteId={selectedPaletteId}
 						onSelectPalette={handleSelectPalette}
 					/>
+					<span style={{
+						position: 'absolute',
+						top: 19,
+						left: 96,
+						zIndex: 1001,
+						fontSize: 14,
+						color: currentPalette.entityText,
+						userSelect: 'none',
+					}}>
+						{editStatus === 'editing' ? 'Editing...' : 'Auto-saved'}
+					</span>
 					<SettingsDropdown
 						canvasRef={canvasRef}
 						entitiesData={entitiesData}
@@ -561,7 +612,9 @@ export default function Home() {
 									pos={cameraPos}
 									deltaPos={deltaPos}
 									layoutPos={entityLayoutPositions?.[i] ?? null}
-									onPrettyFormat={handlePrettyFormat} />
+									onPrettyFormat={handlePrettyFormat}
+									onEditStart={handleEditStart}
+									onEditEnd={handleEditEnd} />
 							)
 						})
 					}
@@ -587,6 +640,8 @@ export default function Home() {
 									relIndex={i}
 									onUpdateRelationship={updateRelationshipAtIndex}
 									onDeleteRelationship={deleteRelationshipAtIndex}
+									onEditStart={handleEditStart}
+									onEditEnd={handleEditEnd}
 									backgroundColor={currentPalette.background}
 									textColor={currentPalette.entityText}
 									strokeColor={currentPalette.entityStroke}
@@ -712,8 +767,15 @@ export default function Home() {
 			</Xwrapper>
 			<CommandPrompt addObjectToCanvas={addObjectToCanvas} loadDiagramToCanvas={loadDiagramToCanvas} />
 			<CommandErrorToast />
+			<FirstVisitTooltip visible={showFirstVisitTooltip} />
 			<button
-				onClick={() => setShowHelp(true)}
+				onClick={() => {
+					if (showFirstVisitTooltip) {
+						localStorage.setItem(FIRST_VISIT_STORAGE_KEY, 'false');
+						setShowFirstVisitTooltip(false);
+					}
+					setShowHelp(true);
+				}}
 				title="Help"
 				style={{
 					position: 'fixed',

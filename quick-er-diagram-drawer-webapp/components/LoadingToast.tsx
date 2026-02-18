@@ -1,7 +1,9 @@
 import toast from 'react-hot-toast';
 
+import styles from './LoadingToast.module.css';
+
 /**
- * Shows a loading toast notification (black background, white border).
+ * Shows a loading toast notification (black background, white border) with a spinning loader.
  * Returns the toast id so it can be dismissed later with toast.dismiss(id).
  */
 export function showLoadingToast(message: string): string {
@@ -25,25 +27,7 @@ export function showLoadingToast(message: string): string {
 				}}
 			>
 				<span style={{ flex: 1 }}>{message}</span>
-				<button
-					onClick={() => toast.dismiss(t.id)}
-					style={{
-						background: 'transparent',
-						border: 'none',
-						color: '#FFFFFF',
-						fontSize: '16px',
-						cursor: 'pointer',
-						marginLeft: '8px',
-						padding: '0 4px',
-						lineHeight: 1,
-						opacity: 0.8,
-					}}
-					onMouseEnter={(e) => (e.currentTarget.style.opacity = '1')}
-					onMouseLeave={(e) => (e.currentTarget.style.opacity = '0.8')}
-					aria-label="Dismiss"
-				>
-					&#x2715;
-				</button>
+				<div className={styles.spinner} />
 			</div>
 		),
 		{ duration: Infinity },
