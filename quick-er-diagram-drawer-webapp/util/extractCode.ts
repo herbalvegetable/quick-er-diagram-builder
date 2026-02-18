@@ -160,8 +160,10 @@ export function extractDiagramCode(fileContent: string): ExtractDiagramCodeRetur
     }
 }
 
+const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+
 export function promptGenerateDiagramModel(rulesText: string): Promise<ExtractDiagramCodeReturnType> {
-    return fetch('http://localhost:5000/generate-diagram', {
+    return fetch(`${NEXT_PUBLIC_SERVER_URL}/generate-diagram`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ rulesText }),

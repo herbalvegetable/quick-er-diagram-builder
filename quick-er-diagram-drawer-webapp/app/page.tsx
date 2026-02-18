@@ -25,6 +25,8 @@ import { getDiagramPrettyLayout } from '@/util/getDiagramPrettyLayout';
 import { colourPalettes } from '@/lib/colourPalette';
 import PaletteDropdown from '@/components/PaletteDropdown';
 
+const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
+
 const PALETTE_STORAGE_KEY = 'er-diagram-palette-id';
 const DIAGRAM_CODE_STORAGE_KEY = 'er-diagram-code';
 const FIRST_VISIT_STORAGE_KEY = 'er-diagram-first-visit';
@@ -41,6 +43,7 @@ function getStoredPaletteId(): string | undefined {
 	if (!stored) return undefined;
 	return colourPalettes.some(p => p.id === stored) ? stored : undefined;
 }
+
 import CommandErrorToast from '@/components/CommandErrorToast';
 import SettingsDropdown from '@/components/SettingsDropdown';
 import RelationshipLabel from '@/components/RelationshipLabel';
@@ -323,7 +326,7 @@ export default function Home() {
 			}
 
 		}
-		fetch(`http://localhost:5000/test_diagram.txt`)
+		fetch(`${NEXT_PUBLIC_SERVER_URL}/test_diagram.txt`)
 			.then(res => res.text().then(data => {
 				console.log(data);
 				let { entities, relationships } = extractDiagramCode(data);
