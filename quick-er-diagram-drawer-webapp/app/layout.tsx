@@ -4,8 +4,8 @@ import "./globals.css";
 import AppProvider from "@/context/AppProvider";
 
 export const metadata: Metadata = {
-	title: "Quick ER Diagram Editor",
-	description: "for smu is112 DM mod",
+	title: "QuickER",
+	description: "i built this because draw.io sucks",
 };
 
 export default function RootLayout({
