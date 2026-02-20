@@ -176,6 +176,7 @@ export function promptGenerateDiagramModel(rulesText: string): Promise<ExtractDi
             return res.json();
         })
         .then((data: { output: string }) => {
+            console.log("AI Output: ", data);
             const parsed = extractDiagramCode(data.output);
             return parsed;
         })
