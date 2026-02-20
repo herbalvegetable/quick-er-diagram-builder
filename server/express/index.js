@@ -25,12 +25,18 @@ app.use(express.static(path.join(__dirname, "public")));
 app.post('/generate-diagram', async (req, res) => {
     const { rulesText } = req.body;
 
-    const response = await fetch(`${PYSERVER_URL}/generate-diagram`, {
-        method: 'POST',
-        body: JSON.stringify({ rules: rulesText}),
-        headers: { 'Content-Type': 'application/json' }
-    });
+    try {
+        const response = await fetch(`${PYSERVER_URL}/generate-diagram`, {
+            method: 'POST',
+            body: JSON.stringify({ rules: rulesText }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        // console.log(response);
 
-    const data = await response.json();
-    res.json(data);
+        const data = await response.json();
+        res.json(data);
+    }
+    catch(err){
+        res.send({"error": err});
+    }
 });
