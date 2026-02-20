@@ -25,13 +25,14 @@ app.use(express.static(path.join(__dirname, "public")));
 app.post('/generate-diagram', async (req, res) => {
     const { rulesText } = req.body;
 
+    console.log('FastAPI Server URL: ', PYSERVER_URL);
     try {
         const response = await fetch(`${PYSERVER_URL}/generate-diagram`, {
             method: 'POST',
             body: JSON.stringify({ rules: rulesText }),
             headers: { 'Content-Type': 'application/json' }
         });
-        // console.log(response);
+        console.log(response);
 
         const data = await response.json();
         res.json(data);

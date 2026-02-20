@@ -163,6 +163,7 @@ export function extractDiagramCode(fileContent: string): ExtractDiagramCodeRetur
 const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL;
 
 export function promptGenerateDiagramModel(rulesText: string): Promise<ExtractDiagramCodeReturnType> {
+    console.log("Server URL: ", NEXT_PUBLIC_SERVER_URL);
     return fetch(`${NEXT_PUBLIC_SERVER_URL}/generate-diagram`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
